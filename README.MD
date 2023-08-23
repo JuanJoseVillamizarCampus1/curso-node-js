@@ -5,16 +5,13 @@ dinámicamente con datos. El servidor escucha en el puerto 8000 para recibir sol
 
 **Requisitos:**
 - Node.js instalado
-- Módulos requeridos: fs (sistema de archivos), http, url, slugify
+- Módulos requeridos: fs (sistema de archivos), http, url
 
 --fs (File System) es un módulo de Node.js que proporciona funciones para trabajar con el sistema de archivos del sistema operativo. Permite leer y escribir archivos de manera síncrona y asíncrona, así como realizar diversas operaciones relacionadas con archivos y directorios.
 
 --http es un módulo de Node.js que permite crear servidores HTTP. Con este módulo, puede crear y configurar servidores web para manejar solicitudes y respuestas HTTP.
 
 --url es un módulo de Node.js que proporciona utilidades para analizar y manipular URLs (Uniform Resource Locators). Permite descomponer una URL en partes como el protocolo, el host, la ruta y los parámetros de consulta.
-
---slugify es una biblioteca externa de Node.js que se utiliza para crear "slugs". Un slug es una versión simplificada y amigable para URL de un texto, generalmente utilizado en las URLs de las páginas web. Esta biblioteca toma un texto y lo convierte en un slug, eliminando caracteres especiales y espacios en blanco, y convirtiendo todo a minúsculas.
-
 
 #### Manejo de Archivos
 
@@ -49,3 +46,48 @@ El servidor está configurado para responder a diferentes rutas:
 #### Inicio del Servidor
 El servidor se inicia y comienza a escuchar en el puerto 8000 y la dirección IP `127.0.0.1`. (localhost)
 
+const fs = require('fs');
+const http = require('http')
+
+////////////////////////////////////////
+//FILES
+
+//Blocking, synchronous way
+// const textIn= fs.readFileSync('./txt/input.txt','utf-8');
+// console.log(textIn);
+// const textOut = `This is what we know about the avocado : ${textIn}.\nCreated on ${Date.now()}`;
+
+// fs.writeFileSync('./txt/output.txt',textOut);
+// console.log('file Written!');
+
+// Non-blocking asynchronous way
+
+// fs.readFile('./txt/start.txt','utf-8',(err, data1)=>{
+//     if (err) return console.log('ERROR!')
+
+//     fs.readFile(`./txt/${data1}.txt`,'utf-8',(err,data2)=>{
+//         console.log(data2);
+//         fs.readFile(`./txt/append.txt`,'utf-8',(err,data3)=>{
+//             console.log(data3);
+//             fs.writeFile('./txt/final.txt',`${data2}\n${data3}`,'utf-8',err=>{
+//                 console.log('Your file has been written :)');
+//             })
+//         })
+//     })
+// });
+// console.log('will read file!');
+
+////////////////////////////////////////
+//SERVER
+const server =  http.createServer((req, res)=>{
+    const pathName = req.url;
+    if (pathName === '/' ||pathName === '/overview') {
+        res.end('This is the OVERVIEW')
+    }
+    else if (pathName === '/product')
+    res.end('This is the PRODUCT')
+});
+
+server.listen(8000,'127.0.0.1',()=>{
+    console.log('Listening to request on port 8000')
+})
